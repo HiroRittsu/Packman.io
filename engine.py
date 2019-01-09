@@ -18,6 +18,10 @@ class Player:
 
         self.Controller = Keyboard()
 
+    def change_size(self, rate):
+        self.width = int(self.width * rate)
+        self.height = int(self.height * rate)
+
     def set_animation(self, split_x, split_y, step):
         self.animation = True
         self.split_x = split_x

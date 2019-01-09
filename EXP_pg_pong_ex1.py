@@ -22,7 +22,8 @@ class game:
         pygame.quit()
 
     def start(self):
-        self.player = Player(150, 300, int(1430 * 0.5), int(188 * 0.5), pygame.image.load('packman.png'))
+        self.player = Player(150, 300, 1430, 188, pygame.image.load('packman.png'))
+        self.player.change_size(0.2)
         self.player.set_animation(8, 1, 0.8)
 
     def update(self):
