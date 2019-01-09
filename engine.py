@@ -30,7 +30,7 @@ class Player:
     def update(self, screen):
         self.calc_speed(screen)
         if self.animation:
-            screen.blit(self.image, [self.x, self.y],
+            screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
                         [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
             self.anim_no += self.step
             if self.anim_no >= self.max_anim:
@@ -86,7 +86,7 @@ class Enemy:
 
     def update(self, screen):
         if self.animation:
-            screen.blit(self.image, [self.x, self.y],
+            screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
                         [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
             self.anim_no += self.step
             if self.anim_no >= self.max_anim:
