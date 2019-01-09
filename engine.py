@@ -40,18 +40,21 @@ class Player:
 
     def calc_speed(self, screen):
         input = self.Controller.get_input()
-        speed_x = 0
-        speed_y = 0
         if input == Controller.Input.Left:
-            speed_y = -10
-            if self.y + speed_y < 0:
-                speed_y = 0
+            self.speed_y += -0.1
         elif input == Controller.Input.Right:
-            speed_y = 10
-            if self.y + speed_y > screen.get_height() - self.height:
-                speed_y = 0
-        self.x += speed_x
-        self.y += speed_y
+            self.speed_y += 0.1
+
+        # 範囲制限
+        if self.y + self.speed_y > screen.get_height() - self.height:
+            self.speed_y = 0
+            self.y = screen.get_height() - self.height
+        if self.y + self.speed_y < 0:
+            self.speed_y = 0
+            self.y = 0
+
+        self.x += self.speed_x
+        self.y += self.speed_y
 
 
 class Enemy:
