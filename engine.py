@@ -51,6 +51,9 @@ class Player:
             self.speed_y += -0.1 / self.size
         elif input == Controller.Input.Right:
             self.speed_y += 0.1 / self.size
+        elif input == Controller.Input.Null:
+            # 減速
+            self.speed_y += (-0.1 * (self.speed_y / 5)) / self.size
 
         # 範囲制限
         if self.y + self.speed_y > screen.get_height() - self.height:

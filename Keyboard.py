@@ -5,10 +5,10 @@ import os
 
 class Keyboard(Controller):
     def __init__(self):
-        Controller.__init__(self);
+        Controller.__init__(self)
         pass
 
-    def get_input(self):
+    def get_input(self, **kwargs):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] & keys[pygame.K_RIGHT]:
