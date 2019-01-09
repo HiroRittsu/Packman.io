@@ -15,12 +15,15 @@ class Player:
         self.size_y = 0
         self.anim_no = 0.0
         self.max_anim = 0
+        self.size = 1
 
         self.Controller = Keyboard()
 
     def change_size(self, rate):
-        self.width = int(self.width * rate)
-        self.height = int(self.height * rate)
+        if not self.size == rate:
+            self.size = rate
+            self.width = int(self.width * rate)
+            self.height = int(self.height * rate)
 
     def set_animation(self, split_x, split_y, step):
         self.animation = True
@@ -45,9 +48,9 @@ class Player:
     def calc_speed(self, screen):
         input = self.Controller.get_input()
         if input == Controller.Input.Left:
-            self.speed_y += -0.1
+            self.speed_y += -0.1 / self.size
         elif input == Controller.Input.Right:
-            self.speed_y += 0.1
+            self.speed_y += 0.1 / self.size
 
         # 範囲制限
         if self.y + self.speed_y > screen.get_height() - self.height:
