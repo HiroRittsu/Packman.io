@@ -22,16 +22,12 @@ class game:
         pygame.quit()
 
     def start(self):
-
-        #self.player = Player(300, 300, 200, 200, pygame.image.load('Rh.jpg'))
-        self.player = Player(150, 300, 464, 188, pygame.image.load('invader1.jpeg'))
-        self.player.set_animation(2, 1)
+        self.player = Player(150, 300, 460, 188, pygame.image.load('invader1.jpeg'))
+        self.player.set_animation(2, 1, 0.1)
 
     def update(self):
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
-
-        #self.player.update(screen)
         self.player.update(screen)
 
 
