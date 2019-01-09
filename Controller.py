@@ -2,9 +2,10 @@
 def enum(**enums):
     return type('Enum', (), enums)
 
+
 class Controller:
     # Input of the Controller
-    Input = enum(Null=0, Left=1, Right=2, Launch=3)
+    Input = enum(Null=0, Left=1, Right=2, Launch=3, Up=4, Down=5)
 
     def __init__(self):
         pass

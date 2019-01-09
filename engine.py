@@ -43,13 +43,13 @@ class Player:
         speed_x = 0
         speed_y = 0
         if input == Controller.Input.Left:
-            speed_x = -5
-            if self.x + speed_x < 0:
-                speed_x = 0
+            speed_y = -10
+            if self.y + speed_y < 0:
+                speed_y = 0
         elif input == Controller.Input.Right:
-            speed_x = 5
-            if self.x + speed_x > screen.get_width():
-                speed_x = 0
+            speed_y = 10
+            if self.y + speed_y > screen.get_height() - self.height:
+                speed_y = 0
         self.x += speed_x
         self.y += speed_y
 
