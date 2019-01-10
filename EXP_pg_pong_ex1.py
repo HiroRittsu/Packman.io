@@ -1,5 +1,6 @@
+# coding=utf-8
 import random
-
+from Bar import *
 from pg_engine import *
 from Controller import *  # new import
 from EMG import *  # new import
@@ -30,7 +31,8 @@ class game:
         # プレイヤー
         self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
         self.player.change_size(0.5)
-        self.player.set_animation(8, 1, 0.8)
+        self.player.set_animation(8, 1, 0.2)
+        self.status_bar = Status(self.player.x, self.player.y, 100, 100, 50)
 
     def update(self):
         # 画面初期化
@@ -41,11 +43,13 @@ class game:
         for i in range(len(self.enemies)):
             over = is_over(self.player, self.enemies[i])
             if over == 1:
-                self.player.change_size(self.player.rate + self.enemies[i].cost / 100)
+                self.player.change_size(self.player.rate + self.enemies[i].cost / 10.0)
                 # モンスター削除
                 delete_index.append(i)
             elif over == -1:
-                print("ダメージ")
+                if self.player.damaged:
+                    pass
+                self.player.damaged = True
 
             if is_outside(screen, self.enemies[i]):
                 # モンスター削除
@@ -58,16 +62,18 @@ class game:
             # スポーン
             cost = random.randint(1, 4)
             self.enemies.append(
-                Enemy(screen.get_width() + 100, random.randint(0, screen.get_height()), -4 / cost, 0, 500,
+                Enemy(screen.get_width() + 100, random.randint(0, screen.get_height()), float(-4 / cost), 0, 500,
                       100, pygame.image.load('./monster/m' + str(random.randint(0, 19) + 1) + '.png'), cost))
             self.enemies[-1].set_animation(5, 1, random.uniform(0, 1))
-            self.enemies[-1].change_size(self.enemies[-1].cost / 4)
+            self.enemies[-1].change_size(self.enemies[-1].cost / 4.0)
 
         for i in range(len(self.enemies)):
             self.enemies[i].update(screen)
 
         # プレイヤーの更新
         self.player.update(screen)
+
+        self.status_bar.update(self.player)
 
 
 if __name__ == '__main__':

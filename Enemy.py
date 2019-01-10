@@ -19,6 +19,7 @@ class Enemy:
         self.max_anim = 0
         self.draw = True
         self.cost = cost
+        self.rate = 1
 
     def change_size(self, rate):
         self.rate = rate
