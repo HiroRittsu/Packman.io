@@ -2,7 +2,7 @@ from Keyboard import *
 
 
 class Enemy:
-    def __init__(self, x, y, width, height, image):
+    def __init__(self, x, y, width, height, image, cost):
         self.x = x
         self.y = y
         self.width = width
@@ -18,6 +18,10 @@ class Enemy:
         self.anim_no = 0
         self.max_anim = 0
         self.draw = True
+        self.cost = cost
+
+    def change_size(self, rate):
+        self.rate = rate
 
     def set_animation(self, split_x, split_y, step):
         self.animation = True
@@ -35,8 +39,11 @@ class Enemy:
     def update(self, screen):
         if self.draw:
             if self.animation:
-                screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
-                            [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
+                screen.blit(
+                    pygame.transform.scale(self.image, (int(self.width * self.rate), int(self.height * self.rate))),
+                    [self.x, self.y],
+                    [int(self.size_x * int(self.anim_no) * self.rate), 0, int(self.size_x * self.rate),
+                     int(self.size_y * self.rate)])
                 self.anim_no += self.step
                 if self.anim_no >= self.max_anim:
                     self.anim_no = 0

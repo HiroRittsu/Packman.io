@@ -35,18 +35,19 @@ class game:
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
         # プレイヤーの更新
-        self.player.change_size(0.1)
+        self.player.change_size(0.5)
         self.player.update(screen)
 
         # 敵の出現
-        if np.random.choice([True, False], p=[0.01, 0.99]):
+        if np.random.choice([True, False], p=[0.1, 0.9]):
             spawn = random.randint(0, 19)
             # スポーン
             self.enemies.append(Enemy(screen.get_width() / 2 + spawn * 10, screen.get_height() / 2, 500, 100,
-                                      pygame.image.load('./monster/m' + str(spawn + 1) + '.png')))
+                                      pygame.image.load('./monster/m' + str(spawn + 1) + '.png'), random.randint(0, 5)))
+            self.enemies[-1].set_animation(5, 1, random.uniform(0, 1))
 
         for i in range(len(self.enemies)):
-            self.enemies[i].set_animation(5, 1, 0.8)
+            self.enemies[i].change_size(self.enemies[i].cost / 3)
             self.enemies[i].update(screen)
 
 
