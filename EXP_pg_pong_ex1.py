@@ -7,11 +7,14 @@ from EMG import *  # new import
 from Engine import *
 from Player import *
 from Enemy import *
-
+from threading import Timer
 
 class game:
 
     def __init__(self):
+        # タイマースレッド起動
+        self.timer = Timer(10, self.end)
+
         self.enemies = []
         self.start()
         self.running = True
@@ -19,13 +22,14 @@ class game:
             for event in pygame.event.get():
                 # checks if you've exited the game
                 if event.type == pygame.QUIT or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
-                    self.running = False
+                    # プログラム終了
+                    pygame.quit()
+                    self.timer.cancel()
+                    sys.exit(0)
 
             self.update()
             pygame.display.update()
             pygame.time.delay(16)  # 30 FPS
-
-        pygame.quit()
 
     def start(self):
         # プレイヤー
@@ -33,18 +37,32 @@ class game:
         self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.2)
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
+        self.time_count = 0
+        self.timer.start()
 
     def end(self):
-        # 画面初期化
-        screen.fill(pygame.color.THECOLORS['black'])
-
-        pygame.display.update()
-        self.running = True
-        while self.running:
+        self.running = False
+        finish_run = True
+        while finish_run:
             for event in pygame.event.get():
                 # checks if you've exited the game
                 if event.type == pygame.QUIT or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
-                    self.running = False
+                    finish_run = False
+            # 画面初期化
+            screen.fill(pygame.color.THECOLORS['black'])
+            # フォントの作成
+            font = pygame.font.SysFont(None, 50)
+            font.set_underline(True)
+            # テキストを描画したSurfaceを作成、描画
+            game_over = pygame.image.load('gameover.png')
+            screen.blit(game_over,
+                        [(screen.get_width() / 2) - (game_over.get_rect().size[0] / 2),
+                         (screen.get_height() / 2) - (game_over.get_rect().size[1] / 2)])
+            text = font.render("Your Score  " + str(self.player.point), True, (0, 255, 0))
+            text_rect = text.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2 + 170))
+            screen.blit(text, text_rect)
+
+            pygame.display.update()
 
         pygame.quit()
         sys.exit(0)
