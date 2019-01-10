@@ -17,7 +17,7 @@ class game:
 
     def __init__(self):
         # タイマースレッド起動
-        self.timer = Timer(MAX_TIME, self.end)
+        # self.timer = Timer(MAX_TIME, self.end)
 
         self.enemies = []
         self.start()
@@ -28,7 +28,7 @@ class game:
                 if event.type == pygame.QUIT or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
                     # プログラム終了
                     pygame.quit()
-                    self.timer.cancel()
+                    # self.timer.cancel()
                     sys.exit(0)
 
             self.update()
@@ -43,11 +43,11 @@ class game:
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
         self.timer_bar = Timer_Bar(0, 0, 250, 250, MAX_TIME)
         self.time_count = MAX_TIME
-        self.timer.start()
+        # self.timer.start()
 
     def end(self):
         self.running = False
-        self.timer.cancel()
+        # self.timer.cancel()
         finish_run = True
         while finish_run:
             for event in pygame.event.get():
@@ -77,7 +77,9 @@ class game:
         # playerの体力確認
         if self.player.hp <= 0:
             self.end()
-
+        # 時間の確認
+        if self.time_count <= 0:
+            self.end()
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
 
@@ -139,7 +141,7 @@ class game:
         screen.blit(text, text_rect)
 
         ##時間表示
-        self.time_count -= 0.018
+        self.time_count -= 0.016
         self.timer_bar.update(screen, self.time_count)
 
 
