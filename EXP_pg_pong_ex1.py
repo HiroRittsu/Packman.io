@@ -13,7 +13,6 @@ class game:
 
     def __init__(self):
         self.enemies = []
-        self.damage_count = 0
         self.start()
         self.running = True
         while self.running:
@@ -35,10 +34,19 @@ class game:
         self.player.set_animation(8, 1, 0.2)
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
 
+    def end(self):
+        pygame.quit()
+        sys.exit(0)
+
     def update(self):
+        # playerの体力確認
+        if self.player.hp <= 0:
+            self.end()
+
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
 
+        #######################################################################
         # 衝突、範囲判定
         delete_index = []
         self.player.damaged = False
@@ -60,6 +68,7 @@ class game:
             del self.enemies[i]
 
         if self.player.damaged:
+            # ダメージ点滅
             if self.player.draw:
                 self.player.draw = False
             else:
@@ -67,6 +76,7 @@ class game:
         else:
             self.player.draw = True
 
+        #######################################################################
         # 敵の出現
         if np.random.choice([True, False], p=[0.05, 0.95]):
             # スポーン
@@ -80,6 +90,7 @@ class game:
         for i in range(len(self.enemies)):
             self.enemies[i].update(screen)
 
+        #######################################################################
         # プレイヤーの更新
         self.player.update(screen)
 
