@@ -3,7 +3,7 @@ import random
 from pg_engine import *
 from Controller import *  # new import
 from EMG import *  # new import
-from engine import *
+from Engine import *
 from Player import *
 from Enemy import *
 
@@ -29,6 +29,7 @@ class game:
     def start(self):
         # プレイヤー
         self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
+        self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.8)
 
     def update(self):
@@ -36,11 +37,24 @@ class game:
         screen.fill(pygame.color.THECOLORS['black'])
 
         # 衝突、範囲判定
-        for enemy in self.enemies:
-            is_over(self.player, enemy)
+        delete_index = []
+        for i in range(len(self.enemies)):
+            over = is_over(self.player, self.enemies[i])
+            if over == 1:
+                self.player.change_size(self.player.rate + self.enemies[i].cost / 100)
+                # モンスター削除
+                delete_index.append(i)
+            elif over == -1:
+                print("ダメージ")
+
+            if is_outside(screen, self.enemies[i]):
+                # モンスター削除
+                delete_index.append(i)
+        for i in delete_index:
+            del self.enemies[i]
 
         # 敵の出現
-        if np.random.choice([True, False], p=[0.1, 0.9]):
+        if np.random.choice([True, False], p=[0.05, 0.95]):
             # スポーン
             cost = random.randint(1, 4)
             self.enemies.append(
@@ -53,7 +67,6 @@ class game:
             self.enemies[i].update(screen)
 
         # プレイヤーの更新
-        self.player.change_size(0.5)
         self.player.update(screen)
 
 

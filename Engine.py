@@ -13,9 +13,12 @@ def is_over(player: Player, enemy: Enemy):
     if p_width / 2 < (p_width / 2 + e_width / 2) - abs(
             (player.x + p_width / 2) - (enemy.x + e_width / 2)) and p_height / 2 < (
             p_height / 2 + e_height / 2) - abs((player.y + p_height / 2) - (enemy.y + e_height / 2)):
-        return True
+        if p_width > e_width and p_height > e_height:
+            return 1
+        else:
+            return -1
     else:
-        return False
+        return 0
 
 
 def is_outside(screen, enemy: Enemy):
