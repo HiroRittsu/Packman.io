@@ -15,6 +15,7 @@ class Player:
         self.anim_no = 0.0
         self.max_anim = 0
         self.rate = 1
+        self.draw = True
 
         self.Controller = Keyboard()
 
@@ -31,17 +32,19 @@ class Player:
         self.step = step
 
     def update(self, screen):
-        self.calc_speed(screen)
-        if self.animation:
-            screen.blit(pygame.transform.scale(self.image, (int(self.width * self.rate), int(self.height * self.rate))),
-                        [self.x, self.y],
-                        [int(self.size_x * int(self.anim_no) * self.rate), 0, int(self.size_x * self.rate),
-                         int(self.size_y * self.rate)])
-            self.anim_no += self.step
-            if self.anim_no >= self.max_anim:
-                self.anim_no = 0
-        else:
-            screen.blit(self.image, [self.x, self.y])
+        if self.draw:
+            self.calc_speed(screen)
+            if self.animation:
+                screen.blit(
+                    pygame.transform.scale(self.image, (int(self.width * self.rate), int(self.height * self.rate))),
+                    [self.x, self.y],
+                    [int(self.size_x * int(self.anim_no) * self.rate), 0, int(self.size_x * self.rate),
+                     int(self.size_y * self.rate)])
+                self.anim_no += self.step
+                if self.anim_no >= self.max_anim:
+                    self.anim_no = 0
+            else:
+                screen.blit(self.image, [self.x, self.y])
 
     def calc_speed(self, screen):
         input = self.Controller.get_input()

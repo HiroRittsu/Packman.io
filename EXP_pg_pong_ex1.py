@@ -9,6 +9,7 @@ from Enemy import *
 class game:
 
     def __init__(self):
+        self.enemies = []
         self.start()
         self.running = True
         while self.running:
@@ -24,13 +25,20 @@ class game:
         pygame.quit()
 
     def start(self):
+        # プレイヤー
         self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
         self.player.set_animation(8, 1, 0.8)
+        # 敵
+        for i in range(20):
+            self.enemies.append(Enemy(screen.get_width() + 100, screen.get_height() / 2, 100, 100,
+                                      pygame.image.load('./monster/m' + str(i + 1) + '.png')))
+            self.enemies[i].set_animation(5, 1, 0.8)
 
     def update(self):
-        self.player.change_size(0.1)
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
+        
+        self.player.change_size(0.1)
         self.player.update(screen)
 
 

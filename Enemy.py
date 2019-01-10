@@ -17,6 +17,7 @@ class Enemy:
         self.size_y = 0
         self.anim_no = 0
         self.max_anim = 0
+        self.draw = False
 
     def set_animation(self, split_x, split_y, step):
         self.animation = True
@@ -32,11 +33,12 @@ class Enemy:
         self.y += speed_y
 
     def update(self, screen):
-        if self.animation:
-            screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
-                        [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
-            self.anim_no += self.step
-            if self.anim_no >= self.max_anim:
-                self.anim_no = 0
-        else:
-            screen.blit(self.image, [self.x, self.y])
+        if self.draw:
+            if self.animation:
+                screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
+                            [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
+                self.anim_no += self.step
+                if self.anim_no >= self.max_anim:
+                    self.anim_no = 0
+            else:
+                screen.blit(self.image, [self.x, self.y])
