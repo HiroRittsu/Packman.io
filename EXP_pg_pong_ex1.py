@@ -35,6 +35,17 @@ class game:
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
 
     def end(self):
+        # 画面初期化
+        screen.fill(pygame.color.THECOLORS['black'])
+
+        pygame.display.update()
+        self.running = True
+        while self.running:
+            for event in pygame.event.get():
+                # checks if you've exited the game
+                if event.type == pygame.QUIT or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
+                    self.running = False
+
         pygame.quit()
         sys.exit(0)
 
@@ -54,6 +65,7 @@ class game:
             over = is_over(self.player, self.enemies[i])
             if over == 1:
                 self.player.change_size(self.player.rate + self.enemies[i].cost / 100.0)
+                self.player.point += self.enemies[i].cost
                 # モンスター削除
                 delete_index.append(i)
             elif over == -1:
