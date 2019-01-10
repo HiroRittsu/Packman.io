@@ -13,6 +13,7 @@ class game:
 
     def __init__(self):
         self.enemies = []
+        self.damage_count = 0
         self.start()
         self.running = True
         while self.running:
@@ -40,6 +41,7 @@ class game:
 
         # 衝突、範囲判定
         delete_index = []
+        self.player.damaged = False
         for i in range(len(self.enemies)):
             over = is_over(self.player, self.enemies[i])
             if over == 1:
@@ -47,13 +49,23 @@ class game:
                 # モンスター削除
                 delete_index.append(i)
             elif over == -1:
+                # ダメージ
                 self.player.hp -= 0.5
+                self.player.damaged = True
 
             if is_outside(screen, self.enemies[i]):
                 # モンスター削除
                 delete_index.append(i)
         for i in delete_index:
             del self.enemies[i]
+
+        if self.player.damaged:
+            if self.player.draw:
+                self.player.draw = False
+            else:
+                self.player.draw = True
+        else:
+            self.player.draw = True
 
         # 敵の出現
         if np.random.choice([True, False], p=[0.05, 0.95]):

@@ -50,6 +50,8 @@ class Player:
                     self.anim_no = 0
             else:
                 screen.blit(self.image, [self.x, self.y])
+        else:
+            print "not"
 
     def calc_speed(self, screen):
         input = self.Controller.get_input()
