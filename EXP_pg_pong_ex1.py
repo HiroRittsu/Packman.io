@@ -2,6 +2,7 @@
 import random
 from Bar import *
 from pg_engine import *
+from pg_init import *
 from Controller import *  # new import
 from EMG import *  # new import
 from Engine import *
@@ -9,12 +10,14 @@ from Player import *
 from Enemy import *
 from threading import Timer
 
+MAX_TIME = 30
+
 
 class game:
 
     def __init__(self):
         # タイマースレッド起動
-        self.timer = Timer(20, self.end)
+        self.timer = Timer(MAX_TIME, self.end)
 
         self.enemies = []
         self.start()
@@ -38,11 +41,13 @@ class game:
         self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.2)
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
-        self.time_count = 0
+        self.timer_bar = Timer_Bar(0, 0, 250, 250, MAX_TIME)
+        self.time_count = MAX_TIME
         self.timer.start()
 
     def end(self):
         self.running = False
+        self.timer.cancel()
         finish_run = True
         while finish_run:
             for event in pygame.event.get():
@@ -134,7 +139,8 @@ class game:
         screen.blit(text, text_rect)
 
         ##時間表示
-        self.time_count += 0.02
+        self.time_count -= 0.018
+        self.timer_bar.update(screen, self.time_count)
 
 
 if __name__ == '__main__':
