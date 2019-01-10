@@ -35,6 +35,10 @@ class game:
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
 
+        # 衝突、範囲判定
+        for enemy in self.enemies:
+            is_over(self.player, enemy)
+
         # 敵の出現
         if np.random.choice([True, False], p=[0.1, 0.9]):
             # スポーン
@@ -43,9 +47,9 @@ class game:
                 Enemy(screen.get_width() + 100, random.randint(0, screen.get_height()), -4 / cost, 0, 500,
                       100, pygame.image.load('./monster/m' + str(random.randint(0, 19) + 1) + '.png'), cost))
             self.enemies[-1].set_animation(5, 1, random.uniform(0, 1))
+            self.enemies[-1].change_size(self.enemies[-1].cost / 4)
 
         for i in range(len(self.enemies)):
-            self.enemies[i].change_size(self.enemies[i].cost / 4)
             self.enemies[i].update(screen)
 
         # プレイヤーの更新
