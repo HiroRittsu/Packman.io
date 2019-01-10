@@ -2,14 +2,14 @@ from Keyboard import *
 
 
 class Enemy:
-    def __init__(self, x, y, width, height, image, cost):
+    def __init__(self, x, y, speed_x, speed_y, width, height, image, cost):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.image = image
-        self.speed_x = 0
-        self.speed_y = 0
+        self.speed_x = speed_x
+        self.speed_y = speed_y
         self.animation = False
         self.split_x = 0
         self.split_y = 0
@@ -38,6 +38,7 @@ class Enemy:
 
     def update(self, screen):
         if self.draw:
+            self.move(screen, self.speed_x, self.speed_y)
             if self.animation:
                 screen.blit(
                     pygame.transform.scale(self.image, (int(self.width * self.rate), int(self.height * self.rate))),
