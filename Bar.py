@@ -40,7 +40,7 @@ class Timer_Bar:
             pygame.draw.arc(screen, (255, 0, 0),
                             (screen.get_width() - self.width / 2, screen.get_height() - self.height / 2, self.width,
                              self.height), math.pi / 2.0, (math.pi / 2.0) * time / self.max + math.pi / 2.0, 25)
-        font = pygame.font.SysFont(None, 40)
-        text = font.render("{:.2f}".format(time), True, (255, 255, 255))
-        text_rect = text.get_rect(center=(screen.get_width() - 45, screen.get_height() - 35))
-        screen.blit(text, text_rect)
+            font = pygame.font.SysFont(None, 40)
+            text = font.render("{:.2f}".format(time), True, (255, 255, 255))
+            text_rect = text.get_rect(center=(screen.get_width() - 45, screen.get_height() - 35))
+            screen.blit(text, text_rect)
