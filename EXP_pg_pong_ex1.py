@@ -30,16 +30,21 @@ class game:
         self.player.set_animation(8, 1, 0.8)
         # 敵
         for i in range(20):
-            self.enemies.append(Enemy(screen.get_width() + 100, screen.get_height() / 2, 100, 100,
+            self.enemies.append(Enemy(screen.get_width() / 2 + i * 10, screen.get_height() / 2, 500, 100,
                                       pygame.image.load('./monster/m' + str(i + 1) + '.png')))
-            self.enemies[i].set_animation(5, 1, 0.8)
 
     def update(self):
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
-        
+
         self.player.change_size(0.1)
         self.player.update(screen)
+
+        for i in range(20):
+            self.enemies[i].draw = True
+            self.enemies[i].set_animation(5, 1, 0.8)
+            self.enemies[i].update(screen)
+
 
 
 if __name__ == '__main__':
