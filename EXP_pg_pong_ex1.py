@@ -32,7 +32,7 @@ class game:
         self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
         self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.2)
-        self.status_bar = Status(self.player.x, self.player.y, 100, 100, 50)
+        self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
 
     def update(self):
         # 画面初期化
@@ -43,13 +43,11 @@ class game:
         for i in range(len(self.enemies)):
             over = is_over(self.player, self.enemies[i])
             if over == 1:
-                self.player.change_size(self.player.rate + self.enemies[i].cost / 10.0)
+                self.player.change_size(self.player.rate + self.enemies[i].cost / 100.0)
                 # モンスター削除
                 delete_index.append(i)
             elif over == -1:
-                if self.player.damaged:
-                    pass
-                self.player.damaged = True
+                self.player.hp -= 0.5
 
             if is_outside(screen, self.enemies[i]):
                 # モンスター削除

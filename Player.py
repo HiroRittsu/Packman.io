@@ -16,6 +16,7 @@ class Player:
         self.anim_no = 0.0
         self.max_anim = 0
         self.rate = 1.0
+        self.hp = 100
         self.draw = True
         self.damaged = False
 
