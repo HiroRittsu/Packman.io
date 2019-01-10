@@ -17,7 +17,7 @@ class Enemy:
         self.size_y = 0
         self.anim_no = 0
         self.max_anim = 0
-        self.draw = False
+        self.draw = True
 
     def set_animation(self, split_x, split_y, step):
         self.animation = True
