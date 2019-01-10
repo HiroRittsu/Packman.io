@@ -14,15 +14,12 @@ class Player:
         self.size_y = 0
         self.anim_no = 0.0
         self.max_anim = 0
-        self.size = 1
+        self.rate = 1
 
         self.Controller = Keyboard()
 
     def change_size(self, rate):
-        if not self.size == rate:
-            self.size = rate
-            self.width = int(self.width * rate)
-            self.height = int(self.height * rate)
+        self.rate = rate
 
     def set_animation(self, split_x, split_y, step):
         self.animation = True
@@ -36,8 +33,10 @@ class Player:
     def update(self, screen):
         self.calc_speed(screen)
         if self.animation:
-            screen.blit(pygame.transform.scale(self.image, (self.width, self.height)), [self.x, self.y],
-                        [int(self.size_x * int(self.anim_no)), 0, int(self.size_x), int(self.size_y)])
+            screen.blit(pygame.transform.scale(self.image, (int(self.width * self.rate), int(self.height * self.rate))),
+                        [self.x, self.y],
+                        [int(self.size_x * int(self.anim_no) * self.rate), 0, int(self.size_x * self.rate),
+                         int(self.size_y * self.rate)])
             self.anim_no += self.step
             if self.anim_no >= self.max_anim:
                 self.anim_no = 0
@@ -47,17 +46,17 @@ class Player:
     def calc_speed(self, screen):
         input = self.Controller.get_input()
         if input == Controller.Input.Left:
-            self.speed_y += -0.1 / self.size
+            self.speed_y += -0.1 / self.rate
         elif input == Controller.Input.Right:
-            self.speed_y += 0.1 / self.size
+            self.speed_y += 0.1 / self.rate
         elif input == Controller.Input.Null:
             # 減速
-            self.speed_y += (-0.1 * (self.speed_y / 5)) / self.size
+            self.speed_y += (-0.1 * (self.speed_y / 5)) / self.rate
 
         # 範囲制限
-        if self.y + self.speed_y > screen.get_height() - self.height:
+        if self.y + self.speed_y > screen.get_height() - (self.height * self.rate):
             self.speed_y = 0
-            self.y = screen.get_height() - self.height
+            self.y = screen.get_height() - (self.height * self.rate) - 0.1
         if self.y + self.speed_y < 0:
             self.speed_y = 0
             self.y = 0

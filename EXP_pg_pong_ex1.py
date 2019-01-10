@@ -25,10 +25,10 @@ class game:
 
     def start(self):
         self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
-        self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.8)
 
     def update(self):
+        self.player.change_size(0.1)
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
         self.player.update(screen)
