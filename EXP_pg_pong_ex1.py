@@ -9,11 +9,12 @@ from Player import *
 from Enemy import *
 from threading import Timer
 
+
 class game:
 
     def __init__(self):
         # タイマースレッド起動
-        self.timer = Timer(10, self.end)
+        self.timer = Timer(20, self.end)
 
         self.enemies = []
         self.start()
@@ -123,8 +124,17 @@ class game:
         #######################################################################
         # プレイヤーの更新
         self.player.update(screen)
-
         self.status_bar.update(self.player)
+
+        #######################################################################
+        # 装飾
+        font = pygame.font.SysFont(None, 50)
+        text = font.render("Score  " + str(self.player.point), True, (0, 255, 0))
+        text_rect = text.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2 + 170))
+        screen.blit(text, text_rect)
+
+        ##時間表示
+        self.time_count += 0.02
 
 
 if __name__ == '__main__':
