@@ -37,16 +37,15 @@ class game:
 
         # 敵の出現
         if np.random.choice([True, False], p=[0.1, 0.9]):
-            spawn = random.randint(0, 19)
             # スポーン
-            cost = random.randint(1, 5)
+            cost = random.randint(1, 4)
             self.enemies.append(
-                Enemy(screen.get_width() / 2 + spawn * 10, screen.get_height() / 2, -3 / cost, 0, 500, 100,
-                      pygame.image.load('./monster/m' + str(spawn + 1) + '.png'), cost))
+                Enemy(screen.get_width() + 100, random.randint(0, screen.get_height()), -4 / cost, 0, 500,
+                      100, pygame.image.load('./monster/m' + str(random.randint(0, 19) + 1) + '.png'), cost))
             self.enemies[-1].set_animation(5, 1, random.uniform(0, 1))
 
         for i in range(len(self.enemies)):
-            self.enemies[i].change_size(self.enemies[i].cost / 3)
+            self.enemies[i].change_size(self.enemies[i].cost / 4)
             self.enemies[i].update(screen)
 
         # プレイヤーの更新
