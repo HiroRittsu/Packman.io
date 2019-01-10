@@ -2,6 +2,8 @@ from pg_engine import *
 from Controller import *  # new import
 from EMG import *  # new import
 from engine import *
+from Player import *
+from Enemy import *
 
 
 class game:
