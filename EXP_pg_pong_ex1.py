@@ -11,6 +11,7 @@ from Enemy import *
 from threading import Timer
 
 MAX_TIME = 60
+BG_IMAGE_INDEX = 0
 
 
 class game:
@@ -86,15 +87,22 @@ class game:
         sys.exit(0)
 
     def update(self):
+        global BG_IMAGE_INDEX
         # playerの体力確認
         if self.player.hp <= 0:
             self.end()
         # 時間の確認
         if self.time_count <= 0:
             self.end()
+
         # 画面初期化
         screen.fill(pygame.color.THECOLORS['black'])
 
+        # background_image
+        screen.blit(pygame.image.load('./backimg/t' + str("{0:04d}".format(BG_IMAGE_INDEX)) + '.bmp'), [0, 0])
+        if BG_IMAGE_INDEX >= 1800:
+            BG_IMAGE_INDEX = 0
+        BG_IMAGE_INDEX += 1
         #######################################################################
         # 衝突、範囲判定
         delete_index = []
@@ -142,6 +150,8 @@ class game:
 
         for i in range(len(self.enemies)):
             self.enemies[i].update(screen)
+
+        #######################################################################
 
         #######################################################################
         # プレイヤーの更新
