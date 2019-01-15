@@ -128,9 +128,12 @@ class game:
 
         #######################################################################
         # 敵の出現
-        if np.random.choice([True, False], p=[0.05, 0.95]):
+        if np.random.choice([True, False], p=[0.07, 0.93]):
             # スポーン
-            cost = random.randint(1, 4)
+            cost_list = []
+            for c in range(4):
+                cost_list.append(c + 1)
+            cost = np.random.choice(cost_list, p=[0.35, 0.35, 0.2, 0.1])
             self.enemies.append(
                 Enemy(screen.get_width() + 100, random.randint(0, screen.get_height()), float(-4 / cost), 0, 500,
                       100, pygame.image.load('./monster/m' + str(random.randint(0, 19) + 1) + '.png'), cost))
