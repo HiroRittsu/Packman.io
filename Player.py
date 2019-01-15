@@ -3,7 +3,7 @@ from Keyboard import *
 
 
 class Player:
-    def __init__(self, x, y, width, height, image):
+    def __init__(self, x, y, width, height, hp, image):
         self.x = x
         self.y = y
         self.width = width
@@ -17,7 +17,7 @@ class Player:
         self.max_anim = 0
         self.rate = 1.0
         self.point = 0
-        self.hp = 100
+        self.hp = hp
         self.draw = True
         self.damaged = False
 

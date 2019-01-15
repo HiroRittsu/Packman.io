@@ -12,6 +12,7 @@ from Enemy import *
 from threading import Timer
 
 MAX_TIME = 60
+MAX_HP = 100
 BG_IMAGE_INDEX = 0
 
 
@@ -40,7 +41,7 @@ class game:
 
     def start(self):
         # プレイヤー
-        self.player = Player(150, 300, 1030, 100, pygame.image.load('packman.png'))
+        self.player = Player(150, 300, 1030, 100, MAX_HP, pygame.image.load('packman.png'))
         self.player.change_size(0.5)
         self.player.set_animation(8, 1, 0.2)
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
@@ -112,15 +113,25 @@ class game:
 
         #######################################################################
         # 衝突、範囲判定
-        delete_index = []
         # アイテム
+        delete_index = []
         for i in range(len(self.item)):
-            pass
+            if is_over_item(self.player, self.item[i]):
+                delete_index.append(i)
+                if isinstance(self.item[i], Watch):
+                    self.time_count += self.item[i].add_time
+                    if self.time_count > MAX_TIME:
+                        self.time_count = MAX_TIME
+                else:
+                    self.player.hp += self.item[i].add_hp
 
+        for i in delete_index:
+            del self.item[i]
         # 敵
+        delete_index = []
         self.player.damaged = False
         for i in range(len(self.enemies)):
-            over = is_over(self.player, self.enemies[i])
+            over = is_over_enemy(self.player, self.enemies[i])
             if over == 1:
                 self.player.change_size(self.player.rate + self.enemies[i].cost / 100.0)
                 self.player.point += self.enemies[i].cost
@@ -169,11 +180,11 @@ class game:
             if np.random.choice([True, False], p=[0.5, 0.5]):
                 self.item.append(
                     Cherry(screen.get_width() + 100, random.randint(0, screen.get_height()), -4, 0, 50, 50,
-                           pygame.image.load('./cherry.png')))
+                           10, pygame.image.load('./cherry.png')))
             else:
                 self.item.append(
                     Watch(screen.get_width() + 100, random.randint(0, screen.get_height()), -4, 0, 50, 50,
-                          pygame.image.load('./watch.png')))
+                          10, pygame.image.load('./watch.png')))
 
         for i in range(len(self.item)):
             self.item[i].update(screen)
