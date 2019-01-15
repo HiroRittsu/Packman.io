@@ -1,5 +1,6 @@
 # coding=utf-8
 import random
+from Items import *
 from Bar import *
 from pg_engine import *
 from pg_init import *
@@ -19,8 +20,8 @@ class game:
     def __init__(self):
         # タイマースレッド起動
         # self.timer = Timer(MAX_TIME, self.end)
-
         self.enemies = []
+        self.item = []
         self.bg_image = []
         self.start()
         self.running = True
@@ -45,6 +46,7 @@ class game:
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
         self.timer_bar = Timer_Bar(0, 0, 250, 250, MAX_TIME)
         self.time_count = MAX_TIME
+        # 背景読み込み
         for i in range(1801):
             self.bg_image.append(pygame.image.load('./backimg/t' + str("{0:04d}".format(i)) + '.bmp'))
 
@@ -111,6 +113,11 @@ class game:
         #######################################################################
         # 衝突、範囲判定
         delete_index = []
+        # アイテム
+        for i in range(len(self.item)):
+            pass
+
+        # 敵
         self.player.damaged = False
         for i in range(len(self.enemies)):
             over = is_over(self.player, self.enemies[i])
@@ -158,9 +165,18 @@ class game:
 
         #######################################################################
         # アイテムの出現
-        if np.random.choice([True, False], p=[0.01, 0.99]):
-            np.random.choice([True, False], p=[0.01, 0.99])
-            pass
+        if np.random.choice([True, False], p=[0.001, 0.999]):
+            if np.random.choice([True, False], p=[0.5, 0.5]):
+                self.item.append(
+                    Cherry(screen.get_width() + 100, random.randint(0, screen.get_height()), -4, 0, 50, 50,
+                           pygame.image.load('./cherry.png')))
+            else:
+                self.item.append(
+                    Watch(screen.get_width() + 100, random.randint(0, screen.get_height()), -4, 0, 50, 50,
+                          pygame.image.load('./watch.png')))
+
+        for i in range(len(self.item)):
+            self.item[i].update(screen)
 
         #######################################################################
         # プレイヤーの更新
