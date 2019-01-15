@@ -21,6 +21,7 @@ class game:
         # self.timer = Timer(MAX_TIME, self.end)
 
         self.enemies = []
+        self.bg_image = []
         self.start()
         self.running = True
         while self.running:
@@ -44,6 +45,9 @@ class game:
         self.status_bar = Status(self.player.x, self.player.y, 100, 100, self.player.hp)
         self.timer_bar = Timer_Bar(0, 0, 250, 250, MAX_TIME)
         self.time_count = MAX_TIME
+        for i in range(1801):
+            self.bg_image.append(pygame.image.load('./backimg/t' + str("{0:04d}".format(i)) + '.bmp'))
+
         # self.timer.start()
 
     def end(self):
@@ -99,10 +103,11 @@ class game:
         screen.fill(pygame.color.THECOLORS['black'])
 
         # background_image
-        screen.blit(pygame.image.load('./backimg/t' + str("{0:04d}".format(BG_IMAGE_INDEX)) + '.bmp'), [0, 0])
+        screen.blit(self.bg_image[BG_IMAGE_INDEX], [0, 0])
         if BG_IMAGE_INDEX >= 1800:
             BG_IMAGE_INDEX = 0
         BG_IMAGE_INDEX += 1
+
         #######################################################################
         # 衝突、範囲判定
         delete_index = []
@@ -152,6 +157,10 @@ class game:
             self.enemies[i].update(screen)
 
         #######################################################################
+        # アイテムの出現
+        if np.random.choice([True, False], p=[0.01, 0.99]):
+            np.random.choice([True, False], p=[0.01, 0.99])
+            pass
 
         #######################################################################
         # プレイヤーの更新
