@@ -20,7 +20,7 @@ class Effect:
                     pygame.transform.scale(
                         pygame.image.load(
                             self.image_dir + 'frame-' + str("{0:02d}".format(int(self.image_count))) + '.gif'),
-                        (self.width, self.height)), [player.x, player.y])
+                        (self.width, self.height)), [player.x - self.width / 2, player.y - self.height / 2])
                 self.image_count += self.step
 
     def can_animation(self):

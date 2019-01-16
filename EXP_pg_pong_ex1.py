@@ -139,7 +139,7 @@ class game:
                 self.player.point += self.enemies[i].cost
                 # モンスター削除
                 delete_index.append(i)
-                self.effect.append(Effect(self.player, 100, 100, './effect/prey2/', 32, 1))
+                self.effect.append(Effect(self.player, 300, 120, './effect/prey2/', 32, 1))
             elif over == -1:
                 # ダメージ
                 self.player.hp -= 0.5
@@ -196,6 +196,16 @@ class game:
         # プレイヤーの更新
         self.player.update(screen)
         self.status_bar.update(self.player)
+
+        # effect更新
+        delete_index = []
+        for i in range(len(self.effect)):
+            self.effect[i].update(screen, self.player)
+            if not self.effect[i].can_animation():
+                delete_index.append(i)
+        for i in delete_index:
+            del self.effect[i]
+
         # score
         font = pygame.font.SysFont(None, 25)
         text = font.render("score  " + str(self.player.point), True, (255, 255, 255))
