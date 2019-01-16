@@ -1,6 +1,7 @@
 # coding=utf-8
 import random
 from Items import *
+from Effect import *
 from Bar import *
 from pg_engine import *
 from pg_init import *
@@ -23,6 +24,7 @@ class game:
         # self.timer = Timer(MAX_TIME, self.end)
         self.enemies = []
         self.item = []
+        self.effect = []
         self.bg_image = []
         self.start()
         self.running = True
@@ -137,6 +139,7 @@ class game:
                 self.player.point += self.enemies[i].cost
                 # モンスター削除
                 delete_index.append(i)
+                self.effect.append(Effect(self.player, 100, 100, './effect/prey2/', 32, 1))
             elif over == -1:
                 # ダメージ
                 self.player.hp -= 0.5
