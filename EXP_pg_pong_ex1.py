@@ -122,7 +122,7 @@ class game:
                 delete_index.append(i)
                 if isinstance(self.item[i], Watch):
                     self.time_count += self.item[i].add_time
-                    self.effect.append(Effect(self.player, 200, 200, './effect/time/', 37, 1))
+                    self.effect.append(Effect(self.player, 200, 100, './effect/time/', 37, 1))
                     if self.time_count > MAX_TIME:
                         self.time_count = MAX_TIME
                 else:
@@ -164,7 +164,7 @@ class game:
 
         #######################################################################
         # 敵の出現
-        if np.random.choice([True, False], p=[0.06, 0.94]):
+        if np.random.choice([True, False], p=[0.07, 0.93]):
             # スポーン
             cost_list = []
             for c in range(4):
