@@ -16,11 +16,13 @@ class Effect:
     def update(self, screen, player):
         if self.draw:
             if self.image_count <= self.image_number:
+                e_width = int(self.width * player.rate)
+                e_height = int(self.height * player.rate)
                 screen.blit(
                     pygame.transform.scale(
                         pygame.image.load(
                             self.image_dir + 'frame-' + str("{0:02d}".format(int(self.image_count))) + '.gif'),
-                        (self.width, self.height)), [player.x - self.width / 2, player.y - self.height / 2])
+                        (e_width, e_height)), [player.x - e_width / 2, player.y - e_height / 2])
                 self.image_count += self.step
 
     def can_animation(self):
